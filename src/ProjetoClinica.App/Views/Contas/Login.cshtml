@@ -1,0 +1,68 @@
+﻿@model ProjetoClinica.App.ViewModels.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Acesso ao sistema";
+}
+
+@*<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "Contas", FormMethod.Post))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label>Email:</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Senha:</label>
+        @Html.PasswordFor(m => m.Senha, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Senha, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Entrar</button>
+}*@
+
+<div class="vh-75 d-flex justify-content-center align-items-center">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="border border-3 border-primary"></div>
+                <div class="card bg-white shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="container mb-3 mt-md-4">
+                            <h2 class="fw-bold mb-2 text-uppercase">Projeto Clínica v1.0.0</h2>
+                            @using (Html.BeginForm("Login", "Contas", FormMethod.Post))
+                            {
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="mb-3">
+                                    <label>Email:</label>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Senha:</label>
+                                    @Html.PasswordFor(m => m.Senha, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Senha, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Entrar</button>
+                                </div>
+                            }
+                        </div>
+                        <div>
+                            <p class="mb-0 text-center">
+                                Entre em contato com o Administrador para criar uma conta, caso não possua.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

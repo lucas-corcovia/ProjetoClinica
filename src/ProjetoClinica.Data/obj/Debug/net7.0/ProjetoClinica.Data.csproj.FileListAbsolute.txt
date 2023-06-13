@@ -1,0 +1,17 @@
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\bin\Debug\net7.0\ProjetoClinica.Data.deps.json
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\bin\Debug\net7.0\ProjetoClinica.Data.runtimeconfig.json
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\bin\Debug\net7.0\ProjetoClinica.Data.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\bin\Debug\net7.0\ProjetoClinica.Data.pdb
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\bin\Debug\net7.0\ProjetoClinica.Business.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\bin\Debug\net7.0\ProjetoClinica.Business.pdb
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.csproj.AssemblyReference.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.AssemblyInfoInputs.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.AssemblyInfo.cs
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.csproj.CoreCompileInputs.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.csproj.CopyComplete
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\refint\ProjetoClinica.Data.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.pdb
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ProjetoClinica.Data.genruntimeconfig.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Data\obj\Debug\net7.0\ref\ProjetoClinica.Data.dll

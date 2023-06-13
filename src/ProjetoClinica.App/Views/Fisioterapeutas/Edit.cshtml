@@ -1,0 +1,96 @@
+﻿@model ProjetoClinica.App.ViewModels.FisioterapeutaViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+<div>
+    <h4>Informações do Fisioterapeuta</h4>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-check form-switch">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" role="switch" asp-for="Disponivel" /> @Html.DisplayNameFor(model => model.Disponivel)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cpf" class="control-label"></label>
+                <input asp-for="Cpf" class="form-control" />
+                <span asp-validation-for="Cpf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rg" class="control-label"></label>
+                <input asp-for="Rg" class="form-control" />
+                <span asp-validation-for="Rg" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Celular" class="control-label"></label>
+                <input asp-for="Celular" class="form-control" />
+                <span asp-validation-for="Celular" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Especialidade" class="control-label"></label>
+                <input asp-for="Especialidade" class="form-control" />
+                <span asp-validation-for="Especialidade" class="text-danger"></span>
+            </div>
+            <hr />
+            <input type="hidden" asp-for="Id" />
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-outline-primary" type="submit"><i class="bi bi-save2-fill"></i> Salvar</button> 
+                <button type="button" class="btn btn-danger" id="deleteButton" data-toggle="modal" data-target="#confirmDeleteModal">
+                    Excluir
+                </button>
+            </div>
+        </form>    
+
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                Deseja realemente excluir o Fisioterapeuta "<strong>@Model.Nome</strong>"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelButton">Cancelar</button>
+                <form id="deleteForm" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    <button type="submit" class="btn btn-success">Confirmar Exclusão</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('#deleteButton').click(function () {
+                $('#confirmDeleteModal').modal('show');
+            });
+
+            $('#cancelButton').click(function () {
+                $('#confirmDeleteModal').modal('hide');
+            });
+        });
+    </script>
+}

@@ -1,0 +1,192 @@
+﻿@model ProjetoClinica.App.ViewModels.PacienteViewModel
+
+@{
+    ViewData["Title"] = "Edit";    
+}
+
+<h4>Paciente</h4>
+<hr />
+
+<div class="row">
+    <div class="col-col-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label asp-for="Foto" class="control-label"></label>
+                    <div class="form-group d-flex align-items-center">
+                        <div class="image-preview-container" onclick="selectFile()">                           
+                            @if (Model.Foto != null)
+                            {                                
+                                <img id="preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)" alt="Imagem" class="img-fluid" />                              
+                                <input type="hidden" asp-for="Foto">
+                            }
+                            else
+                            {
+                                <img id="preview" src="#" alt="Imagem" style="display: none;" />
+                            }
+                            <input asp-for="Foto" type="file" name="foto" id="foto" accept="image/*" class="form-control d-none" onchange="exibirFoto(this)" /> 
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <input asp-for="Nome" class="form-control" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Idade" class="control-label"></label>
+                        <input asp-for="Idade" class="form-control" />
+                        <span asp-validation-for="Idade" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Genero" class="control-label"></label>
+                        <select asp-for="Genero" class="form-control">
+                            <option value="">Selecione um gênero</option>
+                            <option value="M">M</option>
+                            <option value="F">F</option>
+                        </select>
+                        <span asp-validation-for="Genero" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Cpf" class="control-label"></label>
+                        <input asp-for="Cpf" class="form-control" />
+                        <span asp-validation-for="Cpf" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Telefone" class="control-label"></label>
+                        <input asp-for="Telefone" class="form-control" />
+                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ProfissaoAtual" class="control-label"></label>
+                        <input asp-for="ProfissaoAtual" class="form-control" />
+                        <span asp-validation-for="ProfissaoAtual" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ProfissaoAnterior" class="control-label"></label>
+                        <input asp-for="ProfissaoAnterior" class="form-control" />
+                        <span asp-validation-for="ProfissaoAnterior" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Diagnostico" class="control-label"></label>
+                <textarea asp-for="Diagnostico" class="form-control"></textarea>
+                <span asp-validation-for="Diagnostico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TratamentosAnteriores" class="control-label"></label>
+                <textarea asp-for="TratamentosAnteriores" class="form-control"></textarea>
+                <span asp-validation-for="TratamentosAnteriores" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <textarea asp-for="Descricao" class="form-control"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+
+            
+            <div class="col-md-6">
+                <label asp-for="FisioterapeutaId" class="control-label"></label>
+                <select asp-for="FisioterapeutaId" class="form-control" asp-items="ViewBag.FisioterapeutaId"></select>
+                <span asp-validation-for="FisioterapeutaId" class="text-danger"></span>
+            </div>
+            <br />
+            <input type="hidden" asp-for="Id" />
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-outline-primary" type="submit"><i class="bi bi-save2-fill"></i> Salvar</button>
+                <button type="button" class="btn btn-danger" id="deleteButton" data-toggle="modal" data-target="#confirmDeleteModal">
+                    Excluir
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                Deseja realemente excluir o Paciente "<strong>@Model.Nome</strong>"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelButton">Cancelar</button>
+                <form id="deleteForm" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Cpf').mask('999.999.999-99');
+        });
+
+        $(document).ready(function () {
+            $('#Telefone').mask('(99) 99999-9999');
+        });
+
+        function selectFile() {
+            document.getElementById('foto').click();
+        }
+
+        $(document).ready(function () {
+            $('#deleteButton').click(function () {
+                $('#confirmDeleteModal').modal('show');
+            });
+
+            $('#cancelButton').click(function () {
+                $('#confirmDeleteModal').modal('hide');
+            });
+        });
+    </script>
+}
+
+<style>
+    .image-preview-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        max-width: 70px;
+        max-height: 70px;
+    }
+</style>

@@ -1,0 +1,185 @@
+﻿@model IEnumerable<ProjetoClinica.App.ViewModels.PacienteViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@using (Html.BeginForm("Index", "Pacientes", FormMethod.Get))
+{
+    <div class="row g-2">
+        <div class="col-sm">
+            <input class="form-control" type="text" placeholder="ID" aria-label="default input example" id="Id" name="Id">
+        </div>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" placeholder="Nome" aria-label="default input example" id="Nome" name="Nome">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3"><i class="bi bi-search"></i> Pesquisar</button>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Create" class="btn btn-outline-primary fw-bold"><i class="bi bi-person-plus-fill"></i> Novo</a>
+        </div>        
+    </div>
+}
+
+<table id="registros-table-pacientes" class="table table-selectable table-hover table-bordered table-striped table-responsive">
+    <thead class="bg-primary bg-gradient border-bottom box-shadow mb-2 text-white">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cpf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfissaoAtual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfissaoAnterior)
+            </th>
+           @* <th>
+                @Html.DisplayNameFor(model => model.Diagnostico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TratamentosAnteriores)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)*@
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.Foto)
+            </th>*@
+
+            @*<th>
+            @Html.DisplayNameFor(model => model.Fisioterapeuta)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-record-id="@item.Id" ondblclick="abrirPaginaEdicao(@item.Id)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cpf)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Idade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfissaoAtual)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfissaoAnterior)
+                </td>
+               @* <td>
+                    @Html.DisplayFor(modelItem => item.Diagnostico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TratamentosAnteriores)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>*@
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Foto)
+            </td>*@
+
+                @* <td>
+            @Html.DisplayFor(modelItem => item.Fisioterapeuta.Celular)
+            </td>*@
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                    <a asp-action="Details" asp-route-id="@item.Id" title="Informações Paciente"><i class="bi bi-info-circle-fill fw-bold"></i></a>
+                   @* <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    if (Model.ToList().Count > 0)
+    {
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-sm-center">
+                @if (ViewData["Page"] != null && ViewData["PageSize"] != null && ViewData["TotalPages"] != null)
+                {
+                    int currentPage = (int)ViewData["Page"];
+                    int totalPages = (int)ViewData["TotalPages"];
+                    int pageSize = (int)ViewData["PageSize"];
+
+                    <li class="page-item @((currentPage == 1) ? "disabled" : "")">
+                        <a class="page-link" href="?page=1&pageSize=@pageSize" title="Primeira"><i class="bi bi-caret-left-fill"></i></a>
+                    </li>
+                    <li class="page-item @((currentPage == 1) ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(currentPage - 1)&pageSize=@pageSize" title="Anterior"><i class="bi bi-caret-left"></i></a>
+                    </li>
+
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @((i == currentPage) ? "active" : "")">
+                            <a class="page-link" href="?page=@i&pageSize=@pageSize">@i</a>
+                        </li>
+                    }
+
+                    <li class="page-item @((currentPage == totalPages) ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(currentPage + 1)&pageSize=@pageSize" title="Próxima"><i class="bi bi-caret-right"></i></a>
+                    </li>
+                    <li class="page-item @((currentPage == totalPages) ? "disabled" : "")">
+                        <a class="page-link" href="?page=@totalPages&pageSize=@pageSize" title="Última"><i class="bi bi-caret-right-fill"></i></a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+
+<script>
+    // Obter ID do elemento para pesquisa
+    document.getElementById("search-button").addEventListener("click", function () {
+        var id = document.getElementById("search-input").value;
+        var url = "/Pacientes/PesquisarPorId?id=" + id;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                document.getElementById("registros-table-pacientes").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    });
+
+    function abrirPaginaEdicao(idRegistro) {
+        // Construa a URL da página de edição com o ID do registro
+        var urlEdicao = 'Pacientes/Edit/' + idRegistro;
+
+        // Redirecione para a página de edição na mesma guia
+        window.location.href = urlEdicao;
+    }
+</script>

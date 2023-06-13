@@ -1,0 +1,73 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/*.cursor-pointer {
+    cursor: pointer;
+}
+*/
+.pagination {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination-pages {
+    float: left;
+}
+
+    .pagination-pages a {
+        margin-right: 10px;
+    }
+
+    .pagination-pages span {
+        margin-right: 10px;
+    }
+
+    .pagination-pages a:last-child {
+        margin-right: 0;
+    }
+
+.navegacao-inferior-tabela {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+    .navegacao-inferior-tabela .pagination {
+        display: flex;
+        justify-content: center;
+    }
+
+    .navegacao-inferior-tabela .pagination-pages {
+        margin-top: 10px;
+    }
+
+        .navegacao-inferior-tabela .pagination-pages a,
+        .navegacao-inferior-tabela .pagination-pages span {
+            margin: 0 5px;
+            color: #333;
+            text-decoration: none;
+        }
+
+.table-selectable {
+    cursor: pointer; /* Altera o cursor para um indicador de clique */
+}
+
+    .table-selectable tr.selected {
+        background-color: yellow; /* Altera a cor de fundo das linhas selecionadas */
+    }

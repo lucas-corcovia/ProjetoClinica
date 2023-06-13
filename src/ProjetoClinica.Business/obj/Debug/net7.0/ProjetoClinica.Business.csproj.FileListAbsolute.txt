@@ -1,0 +1,12 @@
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\bin\Debug\net7.0\ProjetoClinica.Business.deps.json
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\bin\Debug\net7.0\ProjetoClinica.Business.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\bin\Debug\net7.0\ProjetoClinica.Business.pdb
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.csproj.AssemblyReference.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.GeneratedMSBuildEditorConfig.editorconfig
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.AssemblyInfoInputs.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.AssemblyInfo.cs
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.csproj.CoreCompileInputs.cache
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\refint\ProjetoClinica.Business.dll
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ProjetoClinica.Business.pdb
+D:\dev\ProjetoClinica\src\ProjetoClinica.Business\obj\Debug\net7.0\ref\ProjetoClinica.Business.dll
