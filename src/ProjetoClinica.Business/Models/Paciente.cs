@@ -19,10 +19,11 @@ namespace ProjetoClinica.Business.Models
         public string? Diagnostico { get; set; }
         public string? TratamentosAnteriores { get; set; }
         public string? Descricao { get; set; }
-        public byte[]? Foto { get; set; }
+        //public  byte[]? Foto { get; set; }
         public bool Apagado { get; set; }
         public int FisioterapeutaId { get; set; }
         public Fisioterapeuta Fisioterapeuta { get; set; }
+        public Endereco Endereco { get; set; }
 
         public Paciente()
         {

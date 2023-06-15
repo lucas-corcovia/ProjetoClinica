@@ -19,7 +19,7 @@ builder.Services.AddDbContext<ClinicaContext>(options =>
     ServerVersion.Parse("10.2.10-MariaDB")
     )
 );
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.ResolveDependencies();
 
 

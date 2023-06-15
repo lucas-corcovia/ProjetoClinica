@@ -11,6 +11,7 @@ namespace ProjetoClinica.App.AutoMapper
             CreateMap<Fisioterapeuta, FisioterapeutaViewModel>().ReverseMap();
             CreateMap<Paciente, PacienteViewModel>().ReverseMap();
             CreateMap<Usuario, UsuarioViewModel>().ReverseMap();
+            CreateMap<Endereco, EnderecoViewModel>().ReverseMap();
         }
     }
 }

@@ -10,14 +10,15 @@ namespace ProjetoClinica.App.Configuration
     {
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
-            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddTransient<IFisioterapeutaRepository, FisioterapeutaRepository>();
-            services.AddTransient<IFisioterapeutaService, FisioterapeutaService>();
-            services.AddTransient<IPacienteRepository, PacienteRepository>();
-            services.AddTransient<IPacienteService, PacienteService>();
+            
+            services.AddScoped<IFisioterapeutaRepository, FisioterapeutaRepository>();
+            services.AddScoped<IFisioterapeutaService, FisioterapeutaService>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
+            services.AddScoped<IPacienteService, PacienteService>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();            
 
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddScoped<AutenticacaoFilterAttribute>();

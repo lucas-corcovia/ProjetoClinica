@@ -13,14 +13,16 @@ namespace ProjetoClinica.App.Controllers
     public class PacientesController : Controller
     {
         private readonly IPacienteService _pacienteService;
-        private readonly IFisioterapeutaService _fisioterapeutaService;
+        private readonly IPacienteRepository _pacienteRepository;
+        private readonly IFisioterapeutaService _fisioterapeutaService;     
         private readonly IMapper _mapper;        
 
-        public PacientesController(IPacienteService pacienteService, IMapper mapper, IFisioterapeutaService fisioterapeutaServicer)
+        public PacientesController(IPacienteService pacienteService, IMapper mapper, IFisioterapeutaService fisioterapeutaServicer, IPacienteRepository pacienteRepository)
         {
-            _pacienteService = pacienteService;
+            _pacienteService = pacienteService;           
+            _pacienteRepository = pacienteRepository;
+            _fisioterapeutaService = fisioterapeutaServicer;
             _mapper = mapper;
-            _fisioterapeutaService = fisioterapeutaServicer;           
         }
 
         // GET: Pacientes        
@@ -82,19 +84,21 @@ namespace ProjetoClinica.App.Controllers
         // POST: Pacientes/Create       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] PacienteViewModel pacienteViewModel, IFormFile? foto)
+        public async Task<IActionResult> Create([FromForm] PacienteViewModel pacienteViewModel/*, IFormFile? foto*/)
         {
             if (!ModelState.IsValid) return View(pacienteViewModel);
 
-            ConverteFotoPaciente(pacienteViewModel, foto);           
+            //ConverteFotoPaciente(pacienteViewModel, foto);           
 
             var fisioterapeutas = await _fisioterapeutaService.ObterTodos();
             var apenasDisponiveis = fisioterapeutas.Where(f => f.Disponivel != false).ToList();
 
             ViewData["FisioterapeutaId"] = new SelectList(apenasDisponiveis, "Id", "Nome");
-
+           
             var paciente = _mapper.Map<Paciente>(pacienteViewModel);
-            await _pacienteService.AdicionarPaciente(paciente);
+            var endereco = _mapper.Map<Endereco>(pacienteViewModel.Endereco);
+
+            await _pacienteService.AdicionarPaciente(paciente, endereco);          
 
             return RedirectToAction(nameof(Index));
         }
@@ -102,14 +106,9 @@ namespace ProjetoClinica.App.Controllers
         //GET: Pacientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var pacienteViewModel = await ObterPacienteEndereco(id);
 
-            if (id == null || _mapper.Map<IEnumerable<PacienteViewModel>>(await _pacienteService.ObterTodos()) == null)
-            {
-                return NotFound();
-            }
-
-            var paciente = _mapper.Map<PacienteViewModel>(await _pacienteService.ObterPorId(id));
-            if (paciente == null)
+            if (pacienteViewModel == null)
             {
                 return NotFound();
             }
@@ -118,17 +117,36 @@ namespace ProjetoClinica.App.Controllers
             var apenasDisponiveis = fisioterapeutas.Where(f => f.Disponivel != false).ToList();
             ViewData["FisioterapeutaId"] = new SelectList(apenasDisponiveis, "Id", "Nome");
 
-            return View(paciente);
+            return View(pacienteViewModel);
+
+            //if (id == null || _mapper.Map<IEnumerable<PacienteViewModel>>(await _pacienteService.ObterTodos()) == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var paciente = _mapper.Map<PacienteViewModel>(await _pacienteService.ObterPorId(id));
+            //if (paciente == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var fisioterapeutas = await _fisioterapeutaService.ObterTodos();
+            //var apenasDisponiveis = fisioterapeutas.Where(f => f.Disponivel != false).ToList();
+            //ViewData["FisioterapeutaId"] = new SelectList(apenasDisponiveis, "Id", "Nome");
+
+            //return View(paciente);
         }
 
         // POST: Pacientes/Edit/5       
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [FromForm] PacienteViewModel pacienteViewModel, IFormFile foto)
+       // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,PacienteViewModel pacienteViewModel/*, IFormFile foto*/)
         {
             if (id != pacienteViewModel.Id) return NotFound();
+            //ConverteFotoPaciente(pacienteViewModel, foto);
+            //if (!ModelState.IsValid) return View();
 
-            ConverteFotoPaciente(pacienteViewModel, foto);
+            
 
             var paciente = _mapper.Map<Paciente>(pacienteViewModel);
             await _pacienteService.AtualizarPaciente(paciente);
@@ -136,7 +154,9 @@ namespace ProjetoClinica.App.Controllers
             var fisioterapeutas = await _fisioterapeutaService.ObterTodos();
             var apenasDisponiveis = fisioterapeutas.Where(f => f.Disponivel != false).ToList();
             ViewData["FisioterapeutaId"] = new SelectList(apenasDisponiveis, "Id", "Nome");
-
+            var headers = HttpContext.Request.Headers;
+            var parametros = HttpContext.Request.Query;
+            var dadosDoFormulario = HttpContext.Request.Form;
             return RedirectToAction("Index");
         }
 
@@ -175,17 +195,64 @@ namespace ProjetoClinica.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private void ConverteFotoPaciente(PacienteViewModel pacienteViewModel, IFormFile foto)
+        public async Task<IActionResult> ObterEndereco(int? id)
         {
-            if (foto != null && foto.Length > 0)
+            var paciente = await ObterPacienteEndereco(id);
+
+            if (paciente == null)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    foto.CopyToAsync(memoryStream);
-                    pacienteViewModel.Foto = memoryStream.ToArray();
-                }
+                return NotFound();
             }
+
+            return PartialView("_DetalhesEndereco", paciente);
         }
+
+        public async Task<IActionResult> AtualizarEndereco(int? id)
+        {
+            var paciente = await ObterPacienteEndereco(id);
+
+            if (paciente == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_AtualizarEndereco", new PacienteViewModel { Endereco = paciente.Endereco });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtualizarEndereco(PacienteViewModel pacienteViewModel)
+        {
+            ModelState.Remove("Nome");
+            ModelState.Remove("Cpf");
+            ModelState.Remove("Idade");
+            ModelState.Remove("Genero");
+            ModelState.Remove("Telefone");
+            ModelState.Remove("ProfissaoAtual");
+            ModelState.Remove("ProfissaoAnterior");
+            ModelState.Remove("Diagnostico");
+            ModelState.Remove("Descricao");
+            ModelState.Remove("Foto");
+
+            if (!ModelState.IsValid) return PartialView("_AtualizarEndereco", pacienteViewModel);
+
+            await _pacienteService.AtualizarEndereco(_mapper.Map<Endereco>(pacienteViewModel.Endereco));       
+
+            var url = Url.Action("ObterEndereco", "Pacientes", new { id = pacienteViewModel.Endereco.PacienteId });
+           
+            return Json(new { success = true, url });
+        }
+
+        //private void ConverteFotoPaciente(PacienteViewModel pacienteViewModel/*, IFormFile foto*/)
+        //{
+        //    if (foto != null && foto.Length > 0)
+        //    {
+        //        using (var memoryStream = new MemoryStream())
+        //        {
+        //            foto.CopyToAsync(memoryStream);
+        //            pacienteViewModel.Foto = memoryStream.ToArray();
+        //        }
+        //    }
+        //}
 
         private IQueryable<PacienteViewModel> PesquisarPacientePorNome(string Nome, IEnumerable<PacienteViewModel> pacientes)
         {
@@ -227,6 +294,11 @@ namespace ProjetoClinica.App.Controllers
             ViewData["TotalPages"] = (int)Math.Ceiling(pacientesList.Count / (double)pageSize);
 
             return pacientesPaginados;
+        }
+
+        private async Task<PacienteViewModel> ObterPacienteEndereco(int? id)
+        {
+            return _mapper.Map<PacienteViewModel>(await _pacienteRepository.ObterPacienteEndereco(id));
         }
     }
 }

@@ -12,6 +12,7 @@ namespace ProjetoClinica.Business.Contracts
         Task<IEnumerable<Paciente>> ObterTodos();
         Task<Paciente> ObterPorId(int? id);
         Task<Paciente> ObterPacienteEFisioterapeutaPorId(int? id);
+        Task<Paciente> ObterPacienteEndereco(int? id);
         void Adicionar(Paciente paciente);
         void Atualizar(Paciente paciente);
         void Remover(int id);

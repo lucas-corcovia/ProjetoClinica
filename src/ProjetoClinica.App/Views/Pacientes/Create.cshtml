@@ -2,33 +2,41 @@
 
 @{
     ViewData["Title"] = "Create";
-}
+ }
+ <br />
 
-<h1>Create</h1>
+<div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">Dados Paciente</h5>
 
-<h4>Paciente</h4>
+    <div class="form-group">
+        <button class="btn btn-outline-primary" type="submit" form="formNovoPaciente">
+            <i class="bi bi-save2-fill"></i> Salvar
+        </button>
+    </div>
+</div>
+
 <hr />
+
 <div class="row">
     <div class="col-col-12">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data" id="formNovoPaciente">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-                <div class="col-md-2">
-                    <label asp-for="Foto" class="control-label"></label>
-                    <div class="form-group d-flex align-items-center">
-                        <div class="image-preview-container" onclick="selectFile()">
-                            
-                                @*<img id="preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)" alt="Imagem" class="img-fluid" />*@
 
+            @*<div class="row">
+            <div class="col-md-2">
+            <label asp-for="Foto" class="control-label"></label>
+            <div class="form-group d-flex align-items-center">
+            <div class="image-preview-container" onclick="selectFile()">
 
-                            <img id="preview" src="#" alt="Imagem" style="display: none; " class="img-fluid" />
-                           
-                            <input asp-for="Foto" type="file" name="foto" id="foto" accept="image/*" class="form-control d-none" onchange="exibirFoto(this)" />
-                        </div>
-                    </div>
-                </div>
+            <img id="preview" src="#" alt="Imagem" style="display: none; " class="img-fluid" />
 
+            <input asp-for="Foto" type="file" name="foto" id="foto" accept="image/*" class="form-control d-none" onchange="exibirFoto(this)" />
             </div>
+            </div>
+            </div>
+
+            </div>*@
+
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
@@ -48,7 +56,7 @@
                     <div class="form-group">
                         <label asp-for="Genero" class="control-label"></label>
                         <select asp-for="Genero" class="form-control">
-                            <option value="">Selecione um gênero</option>
+                            <option value="">Gênero</option>
                             <option value="M">M</option>
                             <option value="F">F</option>
                         </select>
@@ -92,7 +100,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label asp-for="Diagnostico" class="control-label"></label>
                 <textarea asp-for="Diagnostico" class="form-control"></textarea>
@@ -115,10 +122,17 @@
                 <select asp-for="FisioterapeutaId" class="form-control" asp-items="ViewBag.FisioterapeutaId"></select>
                 <span asp-validation-for="FisioterapeutaId" class="text-danger"></span>
             </div>
-            <br />           
+            @*<br />
             <div class="form-group">
                 <button class="btn btn-outline-primary" type="submit"><i class="bi bi-save2-fill"></i> Salvar</button>
-            </div>
+            </div>*@
+
+            <br />
+            <h5>Endereço</h5>
+            <hr />
+
+            <partial name="_Endereco" />
+
         </form>
     </div>
 </div>
@@ -131,13 +145,13 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+
     <script>
+        buscaCep();
+
         $(document).ready(function () {
+            buscaCep();
             $('#Cpf').mask('999.999.999-99');
-        });
-        $(document).ready(function () {
             $('#Telefone').mask('(99) 99999-9999');
         });
 
@@ -145,7 +159,7 @@
             document.getElementById('foto').click();
         }
     </script>
-}
+    }
 
 <style>
     .image-preview-container {

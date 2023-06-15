@@ -13,6 +13,7 @@ namespace ProjetoClinica.Data.Context
         public DbSet<Fisioterapeuta> Fisioterapeutas { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
 
         public async Task<bool> Commit()
         {
@@ -24,6 +25,7 @@ namespace ProjetoClinica.Data.Context
             modelBuilder.ApplyConfiguration(new FisioterapeutaMap());
             modelBuilder.ApplyConfiguration(new PacienteMap());
             modelBuilder.ApplyConfiguration(new UsuarioMap());
+            modelBuilder.ApplyConfiguration(new EnderecoMap());
         }
     }
 }

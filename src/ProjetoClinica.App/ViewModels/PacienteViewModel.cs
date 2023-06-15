@@ -1,6 +1,7 @@
 ﻿using ProjetoClinica.Business.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace ProjetoClinica.App.ViewModels
 {
     public class PacienteViewModel
     {
+        [Key]
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }
@@ -20,12 +22,10 @@ namespace ProjetoClinica.App.ViewModels
         public string? Diagnostico { get; set; }
         public string? TratamentosAnteriores { get; set; }
         public string? Descricao { get; set; }
-        public byte[]? Foto { get; set; }
+        //public byte[]? Foto { get; set; }
         public int FisioterapeutaId { get; set; }
         public Fisioterapeuta? Fisioterapeuta { get; set; }
+        public EnderecoViewModel? Endereco { get; set; }
 
-        public PacienteViewModel()
-        {            
-        }
     }
 }

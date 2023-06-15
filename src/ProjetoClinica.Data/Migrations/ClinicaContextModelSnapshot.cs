@@ -18,6 +18,52 @@ namespace ProjetoClinica.Data.Migrations
                 .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("ProjetoClinica.Business.Models.Endereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Bairro")
+                        .HasMaxLength(100)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Cep")
+                        .HasMaxLength(8)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Cidade")
+                        .HasMaxLength(100)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Complemento")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Estado")
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Logradouro")
+                        .HasMaxLength(200)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Numero")
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PacienteId")
+                        .IsUnique();
+
+                    b.ToTable("Endereco", (string)null);
+                });
+
             modelBuilder.Entity("ProjetoClinica.Business.Models.Fisioterapeuta", b =>
                 {
                     b.Property<int>("Id")
@@ -184,6 +230,17 @@ namespace ProjetoClinica.Data.Migrations
                     b.ToTable("Usuario", (string)null);
                 });
 
+            modelBuilder.Entity("ProjetoClinica.Business.Models.Endereco", b =>
+                {
+                    b.HasOne("ProjetoClinica.Business.Models.Paciente", "Paciente")
+                        .WithOne("Endereco")
+                        .HasForeignKey("ProjetoClinica.Business.Models.Endereco", "PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Paciente");
+                });
+
             modelBuilder.Entity("ProjetoClinica.Business.Models.Paciente", b =>
                 {
                     b.HasOne("ProjetoClinica.Business.Models.Fisioterapeuta", "Fisioterapeuta")
@@ -198,6 +255,12 @@ namespace ProjetoClinica.Data.Migrations
             modelBuilder.Entity("ProjetoClinica.Business.Models.Fisioterapeuta", b =>
                 {
                     b.Navigation("Pacientes");
+                });
+
+            modelBuilder.Entity("ProjetoClinica.Business.Models.Paciente", b =>
+                {
+                    b.Navigation("Endereco")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

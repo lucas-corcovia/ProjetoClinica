@@ -5,28 +5,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace ProjetoClinica.Business.Services
 {
     public class PacienteService : IPacienteService
     {
         private readonly IPacienteRepository _pacienteRepository;
+        private readonly IEnderecoRepository _enderecoRepository;
 
-        public PacienteService(IPacienteRepository pacienteRepository)
+        public PacienteService(IPacienteRepository pacienteRepository, IEnderecoRepository enderecoRepository)
         {
             _pacienteRepository = pacienteRepository;
+            _enderecoRepository = enderecoRepository;
         }
 
-        public async Task AdicionarPaciente(Paciente paciente)
-        {
-            _pacienteRepository.Adicionar(paciente);
-            await _pacienteRepository.UnitOfWork.Commit();
+        public async Task AdicionarPaciente(Paciente paciente, Endereco endereco)
+        {           
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                _pacienteRepository.Adicionar(paciente);
+                await _pacienteRepository.UnitOfWork.Commit();
+
+                endereco.PacienteId = paciente.Id;
+                _enderecoRepository.Adicionar(endereco);
+                await _enderecoRepository.UnitOfWork.Commit();
+
+                transaction.Complete();
+            }
         }
 
         public async Task AtualizarPaciente(Paciente paciente)
         {
             _pacienteRepository.Atualizar(paciente);
             await _pacienteRepository.UnitOfWork.Commit();
+        }
+
+        public async Task AtualizarEndereco(Endereco endereco)
+        {       
+           _enderecoRepository.Atualizar(endereco);
+            await _enderecoRepository.UnitOfWork.Commit();
         }
 
         public async Task<Paciente> ObterPorId(int? id)

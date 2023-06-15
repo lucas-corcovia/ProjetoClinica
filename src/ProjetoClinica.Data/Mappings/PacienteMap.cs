@@ -29,7 +29,7 @@ namespace ProjetoClinica.Data.Mappings
             builder.Property(x => x.Diagnostico).HasColumnName("Diagnostico").HasColumnType("VARCHAR").HasMaxLength(250);
             builder.Property(x => x.TratamentosAnteriores).HasColumnName("TratamentosAnteriores").HasColumnType("VARCHAR").HasMaxLength(250);
             builder.Property(x => x.Descricao).HasColumnName("Descricao").HasColumnType("VARCHAR").HasMaxLength(300);
-            builder.Property(x => x.Foto).IsRequired(false).HasColumnName("Foto").HasColumnType("LONGBLOB");
+            //builder.Property(x => x.Foto).IsRequired(false).HasColumnName("Foto").HasColumnType("LONGBLOB");
             builder.Property(x => x.Apagado).IsRequired().HasColumnName("Apagado").HasColumnType("BIT").HasMaxLength(1);
 
             builder.HasOne(p => p.Fisioterapeuta)
@@ -37,6 +37,10 @@ namespace ProjetoClinica.Data.Mappings
                        .HasForeignKey(p => p.FisioterapeutaId)
                        .IsRequired()
                        .OnDelete(DeleteBehavior.NoAction);
+
+            // 1 : 1 => Paciente : Endereco
+            builder.HasOne(e => e.Endereco)
+                .WithOne(e => e.Paciente);
         }
     }
 }

@@ -57,5 +57,12 @@ namespace ProjetoClinica.Data.Repository
             var pacienteFisio =await _context.Pacientes.Include(p => p.Fisioterapeuta).FirstOrDefaultAsync(p=>p.Id == id);
             return pacienteFisio;
         }
+
+        public async Task<Paciente> ObterPacienteEndereco(int? id)
+        {
+            return await _context.Pacientes.AsNoTracking()
+                .Include(c => c.Endereco)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }
